@@ -21,8 +21,6 @@ def split_dollars(text):
 
       :math:`f(n) = 0 \text{ if $n$ is prime}`
     """
-    if text.find("$") == -1:
-        return
     # This searches for "$blah$" inside a pair of curly braces --
     # don't change these, since they're probably coming from a nested
     # math environment.  So for each match, we replace it with a temporary

@@ -2,7 +2,7 @@ import re
 
 from docutils.node import NodeVisitor
 
-def process_dollars(app, docname, source):
+def split_dollars(text):
     r"""
     Replace dollar signs with backticks.
 
@@ -23,8 +23,7 @@ def process_dollars(app, docname, source):
 
       :math:`f(n) = 0 \text{ if $n$ is prime}`
     """
-    s = "\n".join(source)
-    if s.find("$") == -1:
+    if text.find("$") == -1:
         return
     # This searches for "$blah$" inside a pair of curly braces --
     # don't change these, since they're probably coming from a nested
@@ -39,18 +38,17 @@ def process_dollars(app, docname, source):
         _data[t] = s
         return t
     # Match $math$ inside of {...} and replace it with dummy text
-    s = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, s)
+    text = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, text)
     # matches $...$
     dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")
     # regular expression for \$
     slashdollar = re.compile(r"\\\$")
-    s = dollars.sub(r":math:`\1`", s)
-    s = slashdollar.sub(r"$", s)
+    text = dollars.sub(r":math:`\1`", text)
+    text = slashdollar.sub(r"$", text)
     # change the original {...} things in:
     for r in _data:
-        s = s.replace(r, _data[r])
-    # now save results in "source"
-    source[:] = [s]
+        text = text.replace(r, _data[r])
+    return text
 
 
 class MathDollarReplacer(NodeVisitor):

@@ -41,8 +41,6 @@ def split_dollars(text):
     text = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, text)
     # matches $...$
     dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")
-    # regular expression for \$
-    slashdollar = re.compile(r"\\\$")
     res = []
     start = 0
     end = len(text)

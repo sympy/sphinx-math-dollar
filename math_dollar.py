@@ -36,6 +36,7 @@ def process_dollars(app, docname, source):
         t = "___XXX_REPL_%d___" % len(_data)
         _data[t] = s
         return t
+    # Match $math$ inside of {...} and replace it with dummy text
     s = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, s)
     # matches $...$
     dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")

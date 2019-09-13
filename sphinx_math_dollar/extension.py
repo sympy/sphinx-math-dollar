@@ -1,6 +1,7 @@
 from .math_dollar import split_dollars
 
 from docutils.nodes import GenericNodeVisitor, Text, math, paragraph
+from docutils.transforms import Transform
 
 class MathDollarReplacer(GenericNodeVisitor):
     def default_visit(self, node):
@@ -23,8 +24,15 @@ class MathDollarReplacer(GenericNodeVisitor):
         if has_math:
             node.parent.replace(node, nodes)
 
-def process_doctree(app, doctree):
-    doctree.walk(MathDollarReplacer(doctree))
+class TransformMath(Transform):
+    # See http://docutils.sourceforge.net/docs/ref/transforms.html. We want it
+    # to apply before things that change rawsource, since we have to use that
+    # to get the version of the text with backslashes. I'm not sure which all
+    # transforms are relevant here, other than SmartQuotes, so this may need
+    # to be adjusted.
+    default_priority = 500
+    def apply(self, **kwargs):
+        self.document.walk(MathDollarReplacer(self.document))
 
 def setup(app):
-    app.connect("doctree-read", process_doctree)
+    app.add_transform(TransformMath)

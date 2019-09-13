@@ -53,12 +53,6 @@ def process_dollars(app, docname, source):
     source[:] = [s]
 
 
-def process_docstring(app, what, name, obj, options, lines):
-    if name.endswith('.latex'):
-        # Disable in the latex() docstring, as it breaks the example output
-        return
-    return process_dollars(app, None, lines)
-
 class MathDollarReplacer(NodeVisitor):
     def visit_Text(self, node):
         _data = dollar_parts(node.astext())
@@ -67,6 +61,4 @@ def process_doctree(app, doctree):
     pass
 
 def setup(app):
-    app.connect("source-read", process_dollars)
     app.connect("doctree-read", process_doctree)
-    app.connect("autodoc-process-docstring", process_docstring)

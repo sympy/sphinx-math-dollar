@@ -1,5 +1,7 @@
 import re
 
+from docutils.node import NodeVisitor
+
 def process_dollars(app, docname, source):
     r"""
     Replace dollar signs with backticks.
@@ -57,6 +59,14 @@ def process_docstring(app, what, name, obj, options, lines):
         return
     return process_dollars(app, None, lines)
 
+class MathDollarReplacer(NodeVisitor):
+    def visit_Text(self, node):
+        _data = dollar_parts(node.astext())
+
+def process_doctree(app, doctree):
+    pass
+
 def setup(app):
     app.connect("source-read", process_dollars)
+    app.connect("doctree-read", process_doctree)
     app.connect("autodoc-process-docstring", process_docstring)

@@ -35,6 +35,7 @@ def split_dollars(text):
         _data[t] = s
         return t
     # Match $math$ inside of {...} and replace it with dummy text
+    # TODO: This will false positive if the {} are not themselves in math
     text = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, text)
     # matches $...$
     dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")

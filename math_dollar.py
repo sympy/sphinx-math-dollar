@@ -19,7 +19,7 @@ def process_dollars(app, docname, source):
 
     Thus the above line would get changed to
 
-      `f(n) = 0 \text{ if $n$ is prime}`
+      :math:`f(n) = 0 \text{ if $n$ is prime}`
     """
     s = "\n".join(source)
     if s.find("$") == -1:
@@ -38,7 +38,7 @@ def process_dollars(app, docname, source):
         return t
     s = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, s)
     # matches $...$
-    dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$]+?)\$")
+    dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")
     # regular expression for \$
     slashdollar = re.compile(r"\\\$")
     s = dollars.sub(r":math:`\1`", s)
@@ -49,5 +49,13 @@ def process_dollars(app, docname, source):
     # now save results in "source"
     source[:] = [s]
 
+
+def process_docstring(app, what, name, obj, options, lines):
+    if name.endswith('.latex'):
+        # Disable in the latex() docstring, as it breaks the example output
+        return
+    return process_dollars(app, None, lines)
+
 def setup(app):
     app.connect("source-read", process_dollars)
+    app.connect("autodoc-process-docstring", process_docstring)

@@ -27,10 +27,9 @@ def split_dollars(text):
     # don't change these, since they're probably coming from a nested
     # math environment.  So for each match, we replace it with a temporary
     # string, and later on we substitute the original back.
-    global _data
     _data = {}
     def repl(matchobj):
-        global _data
+        nonlocal _data
         s = matchobj.group(0)
         t = "___XXX_REPL_%d___" % len(_data)
         _data[t] = s

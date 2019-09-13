@@ -1,7 +1,5 @@
 import re
 
-from docutils.nodes import NodeVisitor
-
 def split_dollars(text):
     r"""
     Replace dollar signs with backticks.
@@ -61,13 +59,3 @@ def split_dollars(text):
     _add_fragment(text[start:end], 'text')
 
     return res
-
-class MathDollarReplacer(NodeVisitor):
-    def visit_Text(self, node):
-        _data = dollar_parts(node.astext())
-
-def process_doctree(app, doctree):
-    pass
-
-def setup(app):
-    app.connect("doctree-read", process_doctree)

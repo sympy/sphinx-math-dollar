@@ -43,13 +43,26 @@ def split_dollars(text):
     dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ][^\$]*?)\$")
     # regular expression for \$
     slashdollar = re.compile(r"\\\$")
-    text = dollars.sub(r":math:`\1`", text)
-    text = slashdollar.sub(r"$", text)
-    # change the original {...} things in:
-    for r in _data:
-        text = text.replace(r, _data[r])
-    return text
+    res = []
+    start = 0
+    end = len(text)
+    def _add_fragment(t, typ):
+        t = t.replace(r'\$', '$')
+        # change the original {...} things in:
+        for r in _data:
+            t = t.replace(r, _data[r])
+        if t:
+            res.append((typ, t))
 
+    for m in dollars.finditer(text):
+        text_fragment = text[start:m.start()]
+        math_fragment = m.group(1)
+        start = m.end()
+        _add_fragment(text_fragment, 'text')
+        _add_fragment(math_fragment, 'math')
+    _add_fragment(text[start:end], 'text')
+
+    return res
 
 class MathDollarReplacer(NodeVisitor):
     def visit_Text(self, node):

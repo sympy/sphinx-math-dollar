@@ -1,6 +1,6 @@
 import re
 
-from docutils.node import NodeVisitor
+from docutils.nodes import NodeVisitor
 
 def split_dollars(text):
     r"""

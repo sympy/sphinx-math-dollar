@@ -18,7 +18,7 @@ or
 
 Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list.
 
-.. code::python
+.. code:: python
 
    extensions = ['sphinx_math_dollar', 'sphinx.ext.mathjax']
 

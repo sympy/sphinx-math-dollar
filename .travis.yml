@@ -4,7 +4,7 @@ language: python
 sudo: false
 dist: xenial
 python:
-  - 3.6 # Test against the lowest supported version
+  - 3.6 # Build against the lowest supported version
 
 env:
   global:

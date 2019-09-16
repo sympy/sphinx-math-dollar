@@ -16,7 +16,7 @@ or
 
    conda install sphinx-math-dollar
 
-Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list.
+Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list:
 
 .. code:: python
 

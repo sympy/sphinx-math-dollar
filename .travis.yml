@@ -1,5 +1,11 @@
 # TODO: Move this to GitHub actions once doctr supports it
 
+language: python
+sudo: false
+dist: xenial
+python:
+  - 3.6 # Test against the lowest supported version
+
 env:
   global:
     # Doctr deploy key for sympy/sphinx-math-dollar

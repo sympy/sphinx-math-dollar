@@ -41,7 +41,6 @@ def split_dollars(text):
     # string, and later on we substitute the original back.
     _data = {}
     def repl(matchobj):
-        nonlocal _data
         s = matchobj.group(0)
         t = "___XXX_REPL_%d___" % len(_data)
         _data[t] = s

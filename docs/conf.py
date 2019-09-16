@@ -30,7 +30,18 @@ author = 'SymPy Development Team'
 extensions = [
     'sphinx_math_dollar',
     'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages',
 ]
+
+html_theme_options = {
+    'github_user': 'sympy',
+    'github_repo': 'sphinx-math-dollar',
+    'github_banner': True,
+    'logo_name': True,
+    'travis_button': True,
+    'show_related': True,
+}
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

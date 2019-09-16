@@ -14,7 +14,7 @@ or
 
 .. code::
 
-   conda install sphinx-math-dollar
+   conda install -c conda-forge sphinx-math-dollar
 
 Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list:
 

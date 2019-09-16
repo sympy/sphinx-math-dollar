@@ -13,7 +13,8 @@ env:
 
 script:
   - set -e
-  - pip install sphinx git+https://github.com/drdoctr/doctr@notouch
+  - pip install sphinx doctr
   - cd docs
   - make html
+  - cd ..
   - doctr deploy .

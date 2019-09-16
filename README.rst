@@ -1,4 +1,6 @@
-# sphinx-math-dollar
+====================
+ sphinx-math-dollar
+====================
 
 sphinx-math-dollar is a Sphinx extension to let you write LaTeX math using $$.
 

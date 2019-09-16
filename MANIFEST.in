@@ -1,0 +1,2 @@
+include versioneer.py
+include sphinx_math_dollar/_version.py

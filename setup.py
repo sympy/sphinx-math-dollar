@@ -1,6 +1,6 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 import versioneer
@@ -13,7 +13,6 @@ setuptools.setup(
     author_email="sympy@googlegroups.com",
     description="Sphinx extension to let you write LaTeX math using $$",
     long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/sympy/sphinx-math-dollar/",
     packages=setuptools.find_packages(),
     classifiers=[

@@ -32,3 +32,8 @@ The extension will also work with docstrings when combined with the
 `sphinx.ext.autodoc
 <https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html>`_
 extension.
+
+License
+=======
+
+MIT.

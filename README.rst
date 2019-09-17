@@ -69,7 +69,7 @@ To debug which nodes are skipped, set the environment variable
 ``MATH_DOLLAR_DEBUG=1`` or set ``math_dollar_debug = True`` in ``conf.py``.
 
 If you feel a node should always be part of the default blacklist, please make
-a `pull request <https://github.com/sympy/sphinx-math-dollar/pull/7>`_.
+a `pull request <https://github.com/sympy/sphinx-math-dollar>`_.
 
 License
 =======

@@ -33,6 +33,41 @@ The extension will also work with docstrings when combined with the
 <https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html>`_
 extension.
 
+Configuration
+=============
+
+sphinx-math-dollar uses a blacklist to determine which `docutils nodes
+<http://docutils.sourceforge.net/docs/ref/doctree.html>`_ should not be
+parsed. The default blacklist is
+
+.. code::
+
+   (FixedTextElement, literal, math)
+
+``FixedTextElement`` covers the `Simple Body Elements
+<http://docutils.sourceforge.net/docs/ref/doctree.html>`_ nodes.
+
+Any docutils node that is contained in a blacklisted node or a subclass of a
+blacklisted node will not have ``$math$`` parsed as LaTeX.
+
+You can modify this by setting ``math_dollar_node_blacklist`` in ``conf.py``.
+For example, to also prevent ``$math$`` from rendering in `headers nodes
+<http://docutils.sourceforge.net/docs/ref/doctree.html#header>`_, add
+
+.. code:: python
+
+   from sphinx_math_dollar import NODE_BLACKLIST
+   from docutils.nodes import header
+
+   math_dollar_node_blacklist = NODE_BLACKLIST + (header,)
+
+Note that configuring this variable replaces the default, so it is recommended
+to always include the above default values (``NODE_BLACKLIST``) in addition to
+additional nodes.
+
+If you feel a node should always be part of the default blacklist, please make
+a `pull request <https://github.com/sympy/sphinx-math-dollar/pull/7>`_.
+
 License
 =======
 

@@ -1,9 +1,15 @@
+from __future__ import print_function
+import os
+import sys
+
 from .math_dollar import split_dollars
 
 from docutils.nodes import GenericNodeVisitor, Text, math, FixedTextElement, literal
 from docutils.transforms import Transform
 
 NODE_BLACKLIST = node_blacklist = (FixedTextElement, literal, math)
+
+DEBUG = bool(os.environ.get("MATH_DOLLAR_DEBUG", False))
 
 class MathDollarReplacer(GenericNodeVisitor):
     def default_visit(self, node):
@@ -13,6 +19,8 @@ class MathDollarReplacer(GenericNodeVisitor):
         parent = node.parent
         while parent:
             if isinstance(parent, node_blacklist):
+                if DEBUG and any(i == 'math' for i, _ in split_dollars(node.rawsource)):
+                    print("sphinx-math-dollar: Skipping", node, "(node_blacklist = %s)" % (node_blacklist,), file=sys.stderr)
                 return
             parent = parent.parent
         data = split_dollars(node.rawsource)
@@ -40,11 +48,13 @@ class TransformMath(Transform):
         self.document.walk(MathDollarReplacer(self.document))
 
 def config_inited(app, config):
-    global node_blacklist
+    global node_blacklist, DEBUG
     node_blacklist = config.math_dollar_node_blacklist
+    DEBUG = config.math_dollar_debug
 
 def setup(app):
     app.add_transform(TransformMath)
     app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, 'env')
+    app.add_config_value('math_dollar_debug', DEBUG, '')
 
     app.connect('config-inited', config_inited)

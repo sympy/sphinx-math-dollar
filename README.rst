@@ -65,6 +65,9 @@ Note that configuring this variable replaces the default, so it is recommended
 to always include the above default values (``NODE_BLACKLIST``) in addition to
 additional nodes.
 
+To debug which nodes are skipped, set the environment variable
+``MATH_DOLLAR_DEBUG=1`` or set ``math_dollar_debug = True`` in ``conf.py``.
+
 If you feel a node should always be part of the default blacklist, please make
 a `pull request <https://github.com/sympy/sphinx-math-dollar/pull/7>`_.
 

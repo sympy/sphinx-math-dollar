@@ -3,7 +3,7 @@ from .math_dollar import split_dollars
 from docutils.nodes import GenericNodeVisitor, Text, math, FixedTextElement, literal
 from docutils.transforms import Transform
 
-node_blacklist = (FixedTextElement, literal)
+NODE_BLACKLIST = node_blacklist = (FixedTextElement, literal)
 
 class MathDollarReplacer(GenericNodeVisitor):
     def default_visit(self, node):
@@ -36,5 +36,12 @@ class TransformMath(Transform):
     def apply(self, **kwargs):
         self.document.walk(MathDollarReplacer(self.document))
 
+def config_inited(app, config):
+    global node_blacklist
+    node_blacklist = config.math_dollar_node_blacklist
+
 def setup(app):
     app.add_transform(TransformMath)
+    app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, 'env')
+
+    app.connect('config-inited', config_inited)

@@ -12,14 +12,20 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../../..'))
 
+# Test configuration
+
+from docutils.nodes import list_item
+from sphinx_math_dollar import NODE_BLACKLIST
+
+math_dollar_node_blacklist = NODE_BLACKLIST + (list_item,)
 
 # -- Project information -----------------------------------------------------
 
-project = 'sphinx-math-dollar'
-copyright = '2019, SymPy Development Team'
-author = 'SymPy Development Team'
+project = 'sphinx-math-dollar test build'
+copyright = '2019, author'
+author = 'author'
 
 
 # -- General configuration ---------------------------------------------------
@@ -29,19 +35,7 @@ author = 'SymPy Development Team'
 # ones.
 extensions = [
     'sphinx_math_dollar',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.githubpages',
 ]
-
-html_theme_options = {
-    'github_user': 'sympy',
-    'github_repo': 'sphinx-math-dollar',
-    'github_banner': True,
-    'logo_name': True,
-    'travis_button': True,
-    'show_related': True,
-}
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -62,6 +56,6 @@ html_theme = 'alabaster'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = ['_static']
+html_static_path = ['_static']
 
 master_doc = 'index'

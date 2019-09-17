@@ -19,3 +19,9 @@ a definition list with $math$
 .. raw:: html
 
    $nomath$
+
+..
+   $nomath$ in a comment
+
+
+No double math :math:`$nomath$`

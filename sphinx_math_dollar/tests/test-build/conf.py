@@ -14,6 +14,12 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../../..'))
 
+# Test configuration
+
+from docutils.nodes import list_item
+from sphinx_math_dollar import NODE_BLACKLIST
+
+math_dollar_node_blacklist = NODE_BLACKLIST + (list_item,)
 
 # -- Project information -----------------------------------------------------
 

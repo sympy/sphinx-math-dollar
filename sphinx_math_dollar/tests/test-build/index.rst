@@ -25,3 +25,9 @@ a definition list with $math$
 
 
 No double math :math:`$nomath$`
+
+List items are manually disabled in the blacklist in conf.py
+
+1. $nomath$
+
+* $nomath$

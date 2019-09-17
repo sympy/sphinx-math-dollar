@@ -10,8 +10,11 @@ class MathDollarReplacer(GenericNodeVisitor):
         return node
 
     def visit_Text(self, node):
-        if isinstance(node.parent, node_blacklist):
-            return
+        parent = node.parent
+        while parent:
+            if isinstance(parent, node_blacklist):
+                return
+            parent = parent.parent
         data = split_dollars(node.rawsource)
         nodes = []
         has_math = False

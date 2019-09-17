@@ -3,7 +3,6 @@ from .math_dollar import split_dollars
 from docutils.nodes import GenericNodeVisitor, Text, math, FixedTextElement, literal
 from docutils.transforms import Transform
 
-# Note: if the default value here is updated, also update the READMEg
 NODE_BLACKLIST = node_blacklist = (FixedTextElement, literal, math)
 
 class MathDollarReplacer(GenericNodeVisitor):

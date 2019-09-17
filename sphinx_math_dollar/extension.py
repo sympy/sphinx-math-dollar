@@ -1,14 +1,16 @@
 from .math_dollar import split_dollars
 
-from docutils.nodes import GenericNodeVisitor, Text, math, paragraph
+from docutils.nodes import GenericNodeVisitor, Text, math, FixedTextElement, literal
 from docutils.transforms import Transform
+
+node_blacklist = (FixedTextElement, literal)
 
 class MathDollarReplacer(GenericNodeVisitor):
     def default_visit(self, node):
         return node
 
     def visit_Text(self, node):
-        if not isinstance(node.parent, paragraph):
+        if isinstance(node.parent, node_blacklist):
             return
         data = split_dollars(node.rawsource)
         nodes = []

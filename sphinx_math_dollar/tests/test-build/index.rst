@@ -26,6 +26,8 @@ a definition list with $math$
 
 No double math :math:`$nomath$`
 
+No double dollar signs (will change in the future) $$nomath$$.
+
 List items are manually disabled in the blacklist in conf.py
 
 1. $nomath$

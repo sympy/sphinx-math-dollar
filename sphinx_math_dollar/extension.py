@@ -54,7 +54,9 @@ def config_inited(app, config):
 
 def setup(app):
     app.add_transform(TransformMath)
-    app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, 'env')
+    # We can't force a rebuild here because it will always appear different
+    # since the tuple contains classes
+    app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, '')
     app.add_config_value('math_dollar_debug', DEBUG, '')
 
     app.connect('config-inited', config_inited)

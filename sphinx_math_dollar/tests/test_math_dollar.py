@@ -43,3 +43,15 @@ def test_split_dollars():
     assert split_dollars(r"$\$13 + \$14$") == [("math", "$13 + $14")]
     assert split_dollars(r"$\$13$.") == [("math", "$13"), ("text", ".")]
     assert split_dollars(r"    $\sin(x)$") == [("text", "    "), ("math", r"\sin(x)")]
+
+    assert split_dollars(r"$$\sin(x)$$") == [("display math", r"\sin(x)")]
+    assert split_dollars(r"$$\sin(x)$") == [("text", r"$$\sin(x)$")]
+    assert split_dollars(r"$$\sin(x)") == [("text", r"$$\sin(x)")]
+    assert split_dollars(r"\$$\sin(x)$$") == [("text", r"$$\sin(x)$$")]
+    assert split_dollars(r"\$\$\sin(x)\$\$") == [("text", r"$$\sin(x)$$")]
+    assert split_dollars(r"$\sin(x)$ and $$\cos(x)$$") == \
+        [
+            ("math", r"\sin(x)"),
+            ("text", " and "),
+            ("display math", r"\cos(x)"),
+        ]

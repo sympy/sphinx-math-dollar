@@ -2,6 +2,11 @@
  Changelog
 ===========
 
+1.2 (???)
+=========
+
+- Add support for double dollar signs for display math.
+
 1.1.1 (2019-09-30)
 ==================
 

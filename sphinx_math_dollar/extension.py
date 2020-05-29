@@ -4,7 +4,7 @@ import sys
 
 from .math_dollar import split_dollars
 
-from docutils.nodes import GenericNodeVisitor, Text, math, FixedTextElement, literal
+from docutils.nodes import GenericNodeVisitor, Text, math, math_block, FixedTextElement, literal
 from docutils.transforms import Transform
 
 NODE_BLACKLIST = node_blacklist = (FixedTextElement, literal, math)
@@ -32,6 +32,12 @@ class MathDollarReplacer(GenericNodeVisitor):
                 nodes.append(math(text, Text(text)))
             elif typ == "text":
                 nodes.append(Text(text))
+            elif typ == "display math":
+                has_math = True
+                new_node = math_block(text, Text(text))
+                new_node.attributes.setdefault('nowrap', False)
+                new_node.attributes.setdefault('number', None)
+                nodes.append(new_node)
             else:
                 raise ValueError("Unrecognized type from split_dollars %r" % typ)
         if has_math:

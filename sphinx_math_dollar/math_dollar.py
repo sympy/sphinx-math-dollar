@@ -49,7 +49,7 @@ def split_dollars(text):
     # TODO: This will false positive if the {} are not themselves in math
     text = re.sub(r"({[^{}$]*\$[^{}$]*\$[^{}]*})", repl, text)
     # matches $...$
-    dollars = re.compile(r"(?<!\$)(?<!\\)\$([^\$ ](?:(?<=\\)\$|[^\$])*?)(?<!\\)\$")
+    dollars = re.compile(r"(?<!\$)(?<!\\)\$(\$)?([^\$ ](?:(?<=\\)\$|[^\$])*?)(?<!\\)\$(?(1)\$|)")
     res = []
     start = 0
     end = len(text)
@@ -63,10 +63,14 @@ def split_dollars(text):
 
     for m in dollars.finditer(text):
         text_fragment = text[start:m.start()]
-        math_fragment = m.group(1)
+        math_fragment = m.group(2)
+        double_dollar = m.group(1)
         start = m.end()
         _add_fragment(text_fragment, 'text')
-        _add_fragment(math_fragment, 'math')
+        if double_dollar:
+            _add_fragment(math_fragment, 'display math')
+        else:
+            _add_fragment(math_fragment, 'math')
     _add_fragment(text[start:end], 'text')
 
     return res

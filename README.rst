@@ -22,11 +22,23 @@ Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list:
 
    extensions = ['sphinx_math_dollar', 'sphinx.ext.mathjax']
 
+   mathjax_config = {
+       'tex2jax': {
+           'inlineMath': [ ["\\(","\\)"] ],
+           'displayMath': [["\\[","\\]"] ],
+       },
+   }
+
+
+The ``mathjax_config`` is needed to prevent MathJax from parsing dollar signs
+which are ignored by the extension because they should not be parsed as math.
+
 You will now be able to use dollar signs for math, like ``$\int\sin(x)\,dx$``,
-which will produce $\int\sin(x)\,dx$ (if you are reading this on GitHub, look
-at the version built by Sphinx `here
+which will produce $\int\sin(x)\,dx$. You can also use double dollar signs for
+display math, like ``$$\int\sin(x)\,dx$$``, which produces $$\int\sin(x)\,dx$$
+(if you are reading this on GitHub, look at the version built by Sphinx `here
 <https://www.sympy.org/sphinx-math-dollar/>`_). The usual Sphinx ``:math:``
-directive will also continue to work.
+and ``.. math::`` directives will also continue to work.
 
 The extension will also work with docstrings when combined with the
 `sphinx.ext.autodoc

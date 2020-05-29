@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>sphinx-math-dollar &#8212; sphinx-math-dollar  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
@@ -45,12 +45,24 @@
 </div>
 <p>Then in your <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>, add <code class="docutils literal notranslate"><span class="pre">'sphinx_math_dollar'</span></code> to your extensions list:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sphinx_math_dollar&#39;</span><span class="p">,</span> <span class="s1">&#39;sphinx.ext.mathjax&#39;</span><span class="p">]</span>
+
+<span class="n">mathjax_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tex2jax&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;inlineMath&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">(&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">)&quot;</span><span class="p">]</span> <span class="p">],</span>
+        <span class="s1">&#39;displayMath&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">[&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">]&quot;</span><span class="p">]</span> <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">}</span>
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">mathjax_config</span></code> is needed to prevent MathJax from parsing dollar signs
+which are ignored by the extension because they should not be parsed as math.</p>
 <p>You will now be able to use dollar signs for math, like <code class="docutils literal notranslate"><span class="pre">$\int\sin(x)\,dx$</span></code>,
-which will produce <span class="math notranslate nohighlight">\(\int\sin(x)\,dx\)</span> (if you are reading this on GitHub, look
-at the version built by Sphinx <a class="reference external" href="https://www.sympy.org/sphinx-math-dollar/">here</a>). The usual Sphinx <code class="docutils literal notranslate"><span class="pre">:math:</span></code>
-directive will also continue to work.</p>
+which will produce <span class="math notranslate nohighlight">\(\int\sin(x)\,dx\)</span>. You can also use double dollar signs for
+display math, like <code class="docutils literal notranslate"><span class="pre">$$\int\sin(x)\,dx$$</span></code>, which produces <div class="math notranslate nohighlight">
+\[\int\sin(x)\,dx\]</div>
+
+(if you are reading this on GitHub, look at the version built by Sphinx <a class="reference external" href="https://www.sympy.org/sphinx-math-dollar/">here</a>). The usual Sphinx <code class="docutils literal notranslate"><span class="pre">:math:</span></code>
+and <code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">math::</span></code> directives will also continue to work.</p>
 <p>The extension will also work with docstrings when combined with the
 <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html">sphinx.ext.autodoc</a>
 extension.</p>
@@ -87,9 +99,10 @@ a <a class="reference external" href="https://github.com/sympy/sphinx-math-dolla
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">1.1.1 (2019-09-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">1.1 (2019-09-17)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">1.0 (2019-09-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">1.2 (???)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">1.1.1 (2019-09-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">1.1 (2019-09-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">1.0 (2019-09-16)</a></li>
 </ul>
 </li>
 </ul>
@@ -155,7 +168,7 @@ a <a class="reference external" href="https://github.com/sympy/sphinx-math-dolla
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -172,7 +185,7 @@ a <a class="reference external" href="https://github.com/sympy/sphinx-math-dolla
       &copy;2019, SymPy Development Team.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.4</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

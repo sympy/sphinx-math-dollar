@@ -64,5 +64,6 @@ def setup(app):
     # since the tuple contains classes
     app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, '')
     app.add_config_value('math_dollar_debug', DEBUG, '')
+    app.add_config_value('parallel_read_safe', True, '')
 
     app.connect('config-inited', config_inited)

@@ -19,11 +19,12 @@ class MathDollarReplacer(GenericNodeVisitor):
         parent = node.parent
         while parent:
             if isinstance(parent, node_blacklist):
-                if DEBUG and any(i == 'math' for i, _ in split_dollars(node.rawsource)):
+                if DEBUG and any(i == 'math' for i, _ in split_dollars(str(node).replace('\x00', '\\'))):
                     print("sphinx-math-dollar: Skipping", node, "(node_blacklist = %s)" % (node_blacklist,), file=sys.stderr)
                 return
             parent = parent.parent
-        data = split_dollars(node.rawsource)
+        # See https://github.com/sympy/sphinx-math-dollar/issues/22
+        data = split_dollars(str(node).replace('\x00', '\\'))
         nodes = []
         has_math = False
         for typ, text in data:

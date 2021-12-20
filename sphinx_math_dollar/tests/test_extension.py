@@ -6,7 +6,7 @@ def test(app):
 
 
 @pytest.mark.sphinx(buildername='html')
-def test_sphinx_build(app):
+def test_sphinx_build(app, status, warning):
     app.build()
     html = (app.outdir/'index.html').read_text()
 
@@ -23,4 +23,5 @@ def test_sphinx_build(app):
     assert r"\[math\]" not in html
     assert r"\[nomath\]" not in html
 
-
+    assert not status.read()
+    assert not warning.read()

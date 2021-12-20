@@ -3,6 +3,5 @@ from .extension import setup, NODE_BLACKLIST
 
 __all__ = ['split_dollars', 'setup', 'NODE_BLACKLIST']
 
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
+from . import _version
+__version__ = _version.get_versions()['version']

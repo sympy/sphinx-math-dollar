@@ -1,10 +1,12 @@
-import os
+import pytest
 
-from sphinx_testing import with_app
 
-@with_app(buildername='html', srcdir=os.path.join(os.path.dirname(__file__), 'test-build'),
-          copy_srcdir_to_tmpdir=True)
-def _test_sphinx_build(app, status, warning):
+def test(app):
+    app.build()
+
+
+@pytest.mark.sphinx(buildername='html')
+def test_sphinx_build(app):
     app.build()
     html = (app.outdir/'index.html').read_text()
 
@@ -21,8 +23,4 @@ def _test_sphinx_build(app, status, warning):
     assert r"\[math\]" not in html
     assert r"\[nomath\]" not in html
 
-    assert not status.read()
-    assert not warning.read()
 
-def test_sphinx_build():
-    _test_sphinx_build()

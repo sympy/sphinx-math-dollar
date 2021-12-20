@@ -26,5 +26,5 @@ jobs:
         pyflakes .
     - name: Test with pytest
       run: |
-        pip install pytest pytest-doctestplus sphinx-testing
+        pip install pytest pytest-doctestplus
         pytest

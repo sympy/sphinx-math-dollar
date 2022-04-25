@@ -35,7 +35,7 @@
             
   <section id="sphinx-math-dollar">
 <h1>sphinx-math-dollar<a class="headerlink" href="#sphinx-math-dollar" title="Permalink to this headline">¶</a></h1>
-<p>sphinx-math-dollar is a Sphinx extension to let you write LaTeX math using $$.</p>
+<p>sphinx-math-dollar is a Sphinx extension to let you write LaTeX math in RST using $$.</p>
 <p>To enable install it</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">math</span><span class="o">-</span><span class="n">dollar</span>
 </pre></div>
@@ -52,6 +52,13 @@
         <span class="s1">&#39;inlineMath&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">(&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">)&quot;</span><span class="p">]</span> <span class="p">],</span>
         <span class="s1">&#39;displayMath&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">[&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">]&quot;</span><span class="p">]</span> <span class="p">],</span>
     <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">mathjax3_config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;tex&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;inlineMath&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">(&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">)&#39;</span><span class="p">]],</span>
+    <span class="s2">&quot;displayMath&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">[&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">]&quot;</span><span class="p">]],</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -92,6 +99,31 @@ additional nodes.</p>
 <code class="docutils literal notranslate"><span class="pre">MATH_DOLLAR_DEBUG=1</span></code> or set <code class="docutils literal notranslate"><span class="pre">math_dollar_debug</span> <span class="pre">=</span> <span class="pre">True</span></code> in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p>
 <p>If you feel a node should always be part of the default blacklist, please make
 a <a class="reference external" href="https://github.com/sympy/sphinx-math-dollar">pull request</a>.</p>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<p>See <a class="reference external" href="https://github.com/sympy/sphinx-math-dollar/issues">the issue tracker</a>
+for a full list of known issues.</p>
+<ul>
+<li><p>Absolute values can produce errors like <code class="docutils literal notranslate"><span class="pre">Inline</span> <span class="pre">substitution_reference</span>
+<span class="pre">start-string</span> <span class="pre">without</span> <span class="pre">end-string.</span></code>. See <a class="reference external" href="https://github.com/sympy/sphinx-math-dollar/issues/16">issue #16</a>.</p>
+<p>This is because Sphinx parses the vertical bars <code class="docutils literal notranslate"><span class="pre">|x|</span></code> as inline
+substitutions. To work around this, add spaces around the absolute value
+bars, like <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">|</span> <span class="pre">x</span> <span class="pre">|</span> <span class="pre">+</span> <span class="pre">y</span></code>. If an absolute value bar is at the beginning
+or end of the math expression, use curly braces (to avoid false positives,
+sphinx-math-dollar will not parse dollar signs as math if there is a space
+after the first <code class="docutils literal notranslate"><span class="pre">$</span></code> or before the last <code class="docutils literal notranslate"><span class="pre">$</span></code>). For example, replace <code class="docutils literal notranslate"><span class="pre">$|y|</span>
+<span class="pre">\geq</span> <span class="pre">|x^e|$</span></code> with <code class="docutils literal notranslate"><span class="pre">${</span> <span class="pre">|</span> <span class="pre">y</span> <span class="pre">|</span> <span class="pre">\geq</span> <span class="pre">|</span> <span class="pre">x^e</span> <span class="pre">|</span> <span class="pre">}$</span></code>, which produces <span class="math notranslate nohighlight">\({ | y |
+\geq | x^e | }\)</span>.</p>
+</li>
+</ul>
+</section>
+<section id="markdown">
+<h2>Markdown<a class="headerlink" href="#markdown" title="Permalink to this headline">¶</a></h2>
+<p>sphinx-math-dollar is designed to work with RST, which does not natively
+support dollar signs for LaTeX math. If you prefer Markdown, we recommend
+using [MyST](<a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">https://myst-parser.readthedocs.io/en/latest/</a>), which natively
+supports dollar math (this extension is not required).</p>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>

@@ -14,7 +14,7 @@ setuptools.setup(
     description="Sphinx extension to let you write LaTeX math using $$",
     long_description=long_description,
     url="https://github.com/sympy/sphinx-math-dollar/",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(include=['sphinx_math_dollar']),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

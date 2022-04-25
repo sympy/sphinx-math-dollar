@@ -2,7 +2,7 @@
  sphinx-math-dollar
 ====================
 
-sphinx-math-dollar is a Sphinx extension to let you write LaTeX math using $$.
+sphinx-math-dollar is a Sphinx extension to let you write LaTeX math in RST using $$.
 
 To enable install it
 
@@ -27,6 +27,13 @@ Then in your ``conf.py``, add ``'sphinx_math_dollar'`` to your extensions list:
            'inlineMath': [ ["\\(","\\)"] ],
            'displayMath': [["\\[","\\]"] ],
        },
+   }
+
+   mathjax3_config = {
+     "tex": {
+       "inlineMath": [['\\(', '\\)']],
+       "displayMath": [["\\[", "\\]"]],
+     }
    }
 
 
@@ -82,6 +89,33 @@ To debug which nodes are skipped, set the environment variable
 
 If you feel a node should always be part of the default blacklist, please make
 a `pull request <https://github.com/sympy/sphinx-math-dollar>`_.
+
+Known Issues
+============
+
+See `the issue tracker <https://github.com/sympy/sphinx-math-dollar/issues>`__
+for a full list of known issues.
+
+- Absolute values can produce errors like ``Inline substitution_reference
+  start-string without end-string.``. See `issue #16
+  <https://github.com/sympy/sphinx-math-dollar/issues/16>`__.
+
+  This is because Sphinx parses the vertical bars ``|x|`` as inline
+  substitutions. To work around this, add spaces around the absolute value
+  bars, like ``1 + | x | + y``. If an absolute value bar is at the beginning
+  or end of the math expression, use curly braces (to avoid false positives,
+  sphinx-math-dollar will not parse dollar signs as math if there is a space
+  after the first ``$`` or before the last ``$``). For example, replace ``$|y|
+  \geq |x^e|$`` with ``${ | y | \geq | x^e | }$``, which produces ${ | y |
+  \geq | x^e | }$.
+
+Markdown
+========
+
+sphinx-math-dollar is designed to work with RST, which does not natively
+support dollar signs for LaTeX math. If you prefer Markdown, we recommend
+using [MyST](https://myst-parser.readthedocs.io/en/latest/), which natively
+supports dollar math (this extension is not required).
 
 License
 =======

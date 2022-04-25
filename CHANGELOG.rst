@@ -2,6 +2,16 @@
  Changelog
 ===========
 
+1.2.1 (2022-04-25)
+==================
+
+- Drop Python 2.7 support (@oscargus).
+- Make the extension more future-proof against future docutils versions
+  (thanks @gmilde).
+- Mark the extension as parallel read safe (@namurphy).
+- Update versioneer (@oscargus).
+- Replace sphinx-testing with sphinx.testing (@oscargus).
+
 1.2 (2020-09-17)
 ================
 

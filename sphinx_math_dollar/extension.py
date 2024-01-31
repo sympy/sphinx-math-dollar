@@ -2,6 +2,7 @@ import os
 import sys
 
 from .math_dollar import split_dollars
+from . import __version__
 
 from docutils.nodes import GenericNodeVisitor, Text, math, math_block, FixedTextElement, literal
 from docutils.transforms import Transform
@@ -67,3 +68,9 @@ def setup(app):
     app.add_config_value('parallel_read_safe', True, '')
 
     app.connect('config-inited', config_inited)
+
+    return {
+        'version': __version__,
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }

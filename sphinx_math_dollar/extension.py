@@ -1,30 +1,52 @@
+import logging
 import os
 import sys
 
-from .math_dollar import split_dollars
-from . import __version__
-
-from docutils.nodes import GenericNodeVisitor, Text, math, math_block, FixedTextElement, literal
+from docutils.nodes import (
+    FixedTextElement,
+    GenericNodeVisitor,
+    SkipNode,
+    Text,
+    literal,
+    math,
+    math_block,
+)
 from docutils.transforms import Transform
+
+from . import __version__
+from .math_dollar import split_dollars
 
 NODE_BLACKLIST = node_blacklist = (FixedTextElement, literal, math)
 
 DEBUG = bool(os.environ.get("MATH_DOLLAR_DEBUG", False))
 
+
 class MathDollarReplacer(GenericNodeVisitor):
     def default_visit(self, node):
         return node
+
+    def unknown_visit(self, node):
+        logging.warning("sphinx-math-dollar: Skipping unknown node type %s", type(node))
+        raise SkipNode
 
     def visit_Text(self, node):
         parent = node.parent
         while parent:
             if isinstance(parent, node_blacklist):
-                if DEBUG and any(i == 'math' for i, _ in split_dollars(str(node).replace('\x00', '\\'))):
-                    print("sphinx-math-dollar: Skipping", node, "(node_blacklist = %s)" % (node_blacklist,), file=sys.stderr)
+                if DEBUG and any(
+                    i == "math"
+                    for i, _ in split_dollars(str(node).replace("\x00", "\\"))
+                ):
+                    print(
+                        "sphinx-math-dollar: Skipping",
+                        node,
+                        "(node_blacklist = %s)" % (node_blacklist,),
+                        file=sys.stderr,
+                    )
                 return
             parent = parent.parent
         # See https://github.com/sympy/sphinx-math-dollar/issues/22
-        data = split_dollars(str(node).replace('\x00', '\\'))
+        data = split_dollars(str(node).replace("\x00", "\\"))
         nodes = []
         has_math = False
         for typ, text in data:
@@ -36,13 +58,14 @@ class MathDollarReplacer(GenericNodeVisitor):
             elif typ == "display math":
                 has_math = True
                 new_node = math_block(text, Text(text))
-                new_node.attributes.setdefault('nowrap', False)
-                new_node.attributes.setdefault('number', None)
+                new_node.attributes.setdefault("nowrap", False)
+                new_node.attributes.setdefault("number", None)
                 nodes.append(new_node)
             else:
                 raise ValueError("Unrecognized type from split_dollars %r" % typ)
         if has_math:
             node.parent.replace(node, nodes)
+
 
 class TransformMath(Transform):
     # See http://docutils.sourceforge.net/docs/ref/transforms.html. We want it
@@ -51,26 +74,29 @@ class TransformMath(Transform):
     # transforms are relevant here, other than SmartQuotes, so this may need
     # to be adjusted.
     default_priority = 500
+
     def apply(self, **kwargs):
         self.document.walk(MathDollarReplacer(self.document))
+
 
 def config_inited(app, config):
     global node_blacklist, DEBUG
     node_blacklist = config.math_dollar_node_blacklist
     DEBUG = config.math_dollar_debug
 
+
 def setup(app):
     app.add_transform(TransformMath)
     # We can't force a rebuild here because it will always appear different
     # since the tuple contains classes
-    app.add_config_value('math_dollar_node_blacklist', NODE_BLACKLIST, '')
-    app.add_config_value('math_dollar_debug', DEBUG, '')
-    app.add_config_value('parallel_read_safe', True, '')
+    app.add_config_value("math_dollar_node_blacklist", NODE_BLACKLIST, "")
+    app.add_config_value("math_dollar_debug", DEBUG, "")
+    app.add_config_value("parallel_read_safe", True, "")
 
-    app.connect('config-inited', config_inited)
+    app.connect("config-inited", config_inited)
 
     return {
-        'version': __version__,
-        'parallel_read_safe': True,
-        'parallel_write_safe': True,
+        "version": __version__,
+        "parallel_read_safe": True,
+        "parallel_write_safe": True,
     }

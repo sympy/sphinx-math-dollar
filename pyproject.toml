@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sphinx-math-dollar"
+description = "Sphinx extension to let you write LaTeX math using $$"
+readme = "README.rst"
+dynamic = ["version"]
+license = "MIT"
+authors = [{ name = "", email = "sympy@googlegroups.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.6"
+dependencies = ["sphinx"]
+
+[tool.setuptools.packages.find]
+include = ["sphinx_math_dollar*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "sphinx_math_dollar.__version__" }
+readme = { file = ["README.md"] }
+
+[project.urls]
+Source = "https://github.com/sympy/sphinx-math-dollar/"

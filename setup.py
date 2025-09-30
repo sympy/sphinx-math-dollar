@@ -1,3 +1,7 @@
+import pathlib
+import sys
+
+sys.path.append(str(pathlib.Path(__file__).parent))
 import setuptools
 
 with open("README.rst", "r") as fh:
@@ -14,15 +18,13 @@ setuptools.setup(
     description="Sphinx extension to let you write LaTeX math using $$",
     long_description=long_description,
     url="https://github.com/sympy/sphinx-math-dollar/",
-    packages=setuptools.find_packages(include=['sphinx_math_dollar']),
+    packages=setuptools.find_packages(include=["sphinx_math_dollar"]),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires= '>=3.6',
-    install_requires=[
-        'sphinx'
-    ],
-    license='MIT',
+    python_requires=">=3.6",
+    install_requires=["sphinx"],
+    license="MIT",
 )

@@ -5,13 +5,13 @@ def split_dollars(text):
     Split text into text and math segments.
 
     Returns a list of tuples ``(type, text)``, where ``type`` is either
-    ``"text"`` or ``"math"`` and ``text`` is the text.
+    ``"text"``, ``"math"``, or ``"display math"``, and ``text`` is the text.
 
     Example:
 
-    >>> split_dollars(r"The functions $\sin(x)$ and $\cos(x)$.")
+    >>> split_dollars(r"The functions $\sin(x)$ and $$\cos(x)$$.")
     [('text', 'The functions '), ('math', '\\sin(x)'), ('text', ' and '),
-    ('math', '\\cos(x)'), ('text', '.')]
+    ('display math', '\\cos(x)'), ('text', '.')]
 
     More precisely, do a regular expression search.  To match as math, the
     first character after the first $ should not be a space. This is to avoid
@@ -23,11 +23,11 @@ def split_dollars(text):
     Escaped dollars (\$) are also not matched as math delimiters, however all
     escaped dollars are replaced with normal dollars in the final output.
 
-    Math is allowed to be split across multiple lines, as its assumed the
+    Math is allowed to be split across multiple lines, as it's assumed the
     dollars will appear in places like docstrings where line wrapping is
     desired.
 
-    This also doesn't replaces dollar signs enclosed in curly braces,
+    This also doesn't replace dollar signs enclosed in curly braces,
     to avoid nested math environments, such as ::
 
       $f(n) = 0 \text{ if $n$ is prime}$

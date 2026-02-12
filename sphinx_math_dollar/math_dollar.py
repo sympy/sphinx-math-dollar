@@ -1,6 +1,6 @@
 import re
 
-def split_dollars(text):
+def split_dollars(text, *, unmatched="ignore"):
     r"""
     Split text into text and math segments.
 
@@ -32,7 +32,7 @@ def split_dollars(text):
 
       $f(n) = 0 \text{ if $n$ is prime}$
 
-    Thus the above line would get matched fully as math.
+    Thus, the above line would get matched fully as math.
 
     """
     # This searches for "$blah$" inside a pair of curly braces --
@@ -61,7 +61,10 @@ def split_dollars(text):
         if t:
             res.append((typ, t))
 
+    # Store spans of valid matches
+    spans = []
     for m in dollars.finditer(text):
+        spans.append((m.start(), m.end()))
         text_fragment = text[start:m.start()]
         math_fragment = m.group(2)
         double_dollar = m.group(1)
@@ -72,5 +75,51 @@ def split_dollars(text):
         else:
             _add_fragment(math_fragment, 'math')
     _add_fragment(text[start:end], 'text')
+
+    def _find_unmatched_dollars(s: str) -> bool:
+        #
+        # Return True if there is an unmatched unescaped $ or $$ delimiter in s.
+        #
+        # Assumes that nested $...$ inside {...} have already been replaced
+        # by placeholders (as done above).
+
+        i = 0
+        open_delim = None  # None, "$", or "$$"
+
+        while i < len(s):
+            ch = s[i]
+
+            # Skip escaped characters like '\$' or '\x'
+            if ch == "\\":
+                i += 2
+                continue
+
+            if ch == "$":
+                # $$ or $
+                if i + 1 < len(s) and s[i + 1] == "$":
+                    delim = "$$"
+                    step = 2
+                else:
+                    delim = "$"
+                    step = 1
+
+                if open_delim is None:
+                    open_delim = delim
+                else:
+                    if open_delim == delim:
+                        open_delim = None
+                    else:
+                        # mismatched open/close ($$ ... $ or $ ... $$)
+                        return True
+
+                i += step
+                continue
+
+            i += 1
+
+        return open_delim is not None
+
+    if unmatched == "error" and _find_unmatched_dollars(text):
+        raise ValueError("Unmatched '$' detected. Escape literal dollars as '\\$'.")
 
     return res

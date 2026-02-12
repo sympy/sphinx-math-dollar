@@ -1,4 +1,5 @@
 from ..math_dollar import split_dollars
+import pytest
 
 def test_split_dollars():
     assert split_dollars("Text") == [("text", "Text")]
@@ -55,3 +56,17 @@ def test_split_dollars():
             ("text", " and "),
             ("display math", r"\cos(x)"),
         ]
+def test_unmatched_dollar_raises():
+    with pytest.raises(ValueError):
+        split_dollars("This costs $12", unmatched="error")  # unmatched
+
+def test_escaped_dollar_ok():
+    assert split_dollars(r"This costs \$12") == [("text", "This costs $12")]
+
+
+def test_unmatched_dollar_error_mode():
+    with pytest.raises(ValueError):
+        split_dollars(r"$\sin(x)", unmatched="error")
+
+def test_escaped_dollar_still_ok():
+    assert split_dollars(r"This costs \$12", unmatched="error") == [("text", "This costs $12")]

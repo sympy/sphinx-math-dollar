@@ -14,6 +14,7 @@
 - Add Sphinx 9 compatibility by replacing ``sphinx.testing.path`` with
   ``pathlib``.
 - Update supported Python versions to 3.11, 3.12, 3.13, 3.14, and PyPy 3.11.
+- Add support for ``\(...\)`` and ``\[...\]`` math delimiters.
 
 1.2.1 (2022-04-25)
 ==================
